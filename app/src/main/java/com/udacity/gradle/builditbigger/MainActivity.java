@@ -7,12 +7,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.JokeTeller;
 import com.example.jokedisplayer.JokeActivity;
 
 
-public class MainActivity extends ActionBarActivity {
-    public static final String JOKE_EXTRA = "joke";
+public class MainActivity extends ActionBarActivity implements FetchJokeTask.JokeLoadListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +42,20 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void tellJoke(View view){
-        JokeTeller jt = new JokeTeller();
+        new FetchJokeTask().execute(this);
+    }
+
+    @Override
+    public void onJokeLoad(String joke) {
+        showJoke(joke);
+    }
+
+    void showJoke(String joke){
         Intent intent = new Intent(this, JokeActivity.class);
-        String joke = jt.getJoke();
         intent.putExtra(intent.EXTRA_TEXT, joke);
         //Toast.makeText(this, jt.getJoke(), Toast.LENGTH_SHORT).show();
 
         this.startActivity(intent);
     }
-
 
 }
