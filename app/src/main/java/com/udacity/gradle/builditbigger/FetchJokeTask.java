@@ -13,17 +13,26 @@ import java.io.IOException;
 /**
  * Created by sanju singh on 25-Jun-16.
  */
-class FetchJokeTask extends AsyncTask<FetchJokeTask.JokeLoadListener, Void, String> {
+public class FetchJokeTask extends AsyncTask<FetchJokeTask.JokeLoadListener, Void, String> {
     private static MyApi myApiService = null;
     private JokeLoadListener listener;
+    private Exception mError = null;
 
-    interface JokeLoadListener{
-        void onJokeLoad(String joke);
+    public interface JokeLoadListener{
+        void onJokeLoad(String joke, Exception e);
+    }
+
+    @Override
+    protected void onCancelled() {
+        if (this.listener != null) {
+            mError = new InterruptedException("AsyncTask cancelled");
+            this.listener.onJokeLoad(null, mError);
+        }
     }
 
     @Override
     protected String doInBackground(FetchJokeTask.JokeLoadListener... params) {
-        if(myApiService == null) {  // Only do this once
+        if(myApiService == null) {
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
                     // options for running against local devappserver
@@ -47,14 +56,14 @@ class FetchJokeTask extends AsyncTask<FetchJokeTask.JokeLoadListener, Void, Stri
         try {
             return myApiService.getJoke().execute().getData();
         } catch (IOException e) {
-            return e.getMessage();
+            mError = e;
+            return null;
         }
-
     }
 
     @Override
     protected void onPostExecute(String result) {
-       // Toast.makeText(context, result, Toast.LENGTH_LONG).show();
-        listener.onJokeLoad(result);
+       if(listener != null)
+        listener.onJokeLoad(result, mError);
     }
 }

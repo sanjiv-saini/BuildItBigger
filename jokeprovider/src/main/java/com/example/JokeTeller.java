@@ -7,7 +7,7 @@ public class JokeTeller {
 
     private List<String> jokes = new ArrayList<>();
 
-    JokeTeller(){
+    public JokeTeller(){
         jokes.add("Mother: \"Did you enjoy your first day at school?\" \n" +
                 "Girl: \"First day? Do you mean I have to go back tomorrow? ");
         jokes.add("Teacher: Did your father help your with your homework? \n" +
@@ -17,12 +17,11 @@ public class JokeTeller {
     }
 
     public String getJoke(){
-        return "Mother: \"Did you enjoy your first day at school?\" \n" +
-                "Girl: \"First day? Do you mean I have to go back tomorrow? ";
+        return getRandom();
     }
 
     public String getRandom(){
-        int randNum = (int)Math.random()*3;
+        int randNum = (int)(Math.random() * jokes.size());
         return jokes.get(randNum);
     }
 }

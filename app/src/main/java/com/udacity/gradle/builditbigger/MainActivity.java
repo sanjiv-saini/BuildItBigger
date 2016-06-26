@@ -46,7 +46,10 @@ public class MainActivity extends ActionBarActivity implements FetchJokeTask.Jok
     }
 
     @Override
-    public void onJokeLoad(String joke) {
+    public void onJokeLoad(String joke, Exception e){
+        if(e != null){
+            joke = e.getMessage();
+        }
         showJoke(joke);
     }
 
