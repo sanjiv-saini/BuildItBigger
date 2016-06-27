@@ -65,14 +65,19 @@ public class MainActivity extends ActionBarActivity implements FetchJokeTask.Jok
         showJoke(joke);
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mainView.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.GONE);
+    }
+
     void showJoke(String joke){
         Intent intent = new Intent(this, JokeActivity.class);
         intent.putExtra(intent.EXTRA_TEXT, joke);
         //Toast.makeText(this, jt.getJoke(), Toast.LENGTH_SHORT).show();
 
         this.startActivity(intent);
-
-        mainView.setVisibility(View.VISIBLE);
-        mProgressBar.setVisibility(View.GONE);
     }
 }

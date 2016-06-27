@@ -1,6 +1,7 @@
 package com.udacity.gradle.builditbigger.free;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,7 @@ public class LaunchActivity extends MainActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("hello", "hello");
         super.onCreate(savedInstanceState);
 
         mInterstitialAd = new InterstitialAd(this);
@@ -35,6 +37,11 @@ public class LaunchActivity extends MainActivity{
         });
 
         requestNewInterstitial();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
