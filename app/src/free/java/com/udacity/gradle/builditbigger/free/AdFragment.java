@@ -18,7 +18,6 @@ import com.udacity.gradle.builditbigger.R;
  */
 public class AdFragment extends MainActivityFragment {
 
-
     public AdFragment() {
         // Required empty public constructor
     }
