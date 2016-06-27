@@ -12,10 +12,18 @@ import com.example.jokedisplayer.JokeActivity;
 
 public class MainActivity extends ActionBarActivity implements FetchJokeTask.JokeLoadListener{
 
+    View mProgressBar;
+    View mainView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mProgressBar = findViewById(R.id.progressBar);
+        mainView = findViewById(R.id.mainView);
+
+        mainView.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.GONE);
     }
 
 
@@ -41,12 +49,16 @@ public class MainActivity extends ActionBarActivity implements FetchJokeTask.Jok
         return super.onOptionsItemSelected(item);
     }
 
+
     public void tellJoke(View view){
+        mainView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
         new FetchJokeTask().execute(this);
     }
 
     @Override
     public void onJokeLoad(String joke, Exception e){
+
         if(e != null){
             joke = e.getMessage();
         }
@@ -59,6 +71,8 @@ public class MainActivity extends ActionBarActivity implements FetchJokeTask.Jok
         //Toast.makeText(this, jt.getJoke(), Toast.LENGTH_SHORT).show();
 
         this.startActivity(intent);
-    }
 
+        mainView.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.GONE);
+    }
 }
